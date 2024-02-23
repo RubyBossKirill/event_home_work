@@ -5,13 +5,15 @@ class Participant
         @name = name
         @surname = surname
         @email = email
+        @event = nil
     end
 
     def to_h 
         {
             name: @name, 
             surname: @surname,
-            email: @email
+            email: @email,
+            event: @event
         }
     end
 end
