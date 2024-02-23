@@ -39,11 +39,11 @@ class EventManager
         p "#{name_event} добавлен в список" 
     end
 
-    def remove_event(event)
-        @json_hash_events.delete(event)
+    def remove_event(name_event)
+        @json_hash_events.delete(name_event)
         save_json_hash_events
 
-        p "#{username} удален из списка"
+        p "#{name_event} удален из списка"
     end
 
     private
@@ -58,8 +58,8 @@ class EventManager
     end
 
     def load_participant 
-        if File.exist?('../data/data_participant.json')
-            json_data = File.read('../data/data_participant.json')
+        if File.exist?('data/data_participant.json')
+            json_data = File.read('data/data_participant.json')
             begin
                 @json_data = JSON.parse(json_data)
             rescue JSON::ParserError
@@ -69,8 +69,8 @@ class EventManager
     end
 
     def load_events
-        if File.exist?('../data/data_events.json')
-            json_data_events = File.read('../data/data_events.json')
+        if File.exist?('data/data_events.json')
+            json_data_events = File.read('data/data_events.json')
             begin
                 @json_hash_events = JSON.parse(json_data_events)
             rescue JSON::ParserError
@@ -80,7 +80,7 @@ class EventManager
     end
 
     def save_participant(username)
-        File.open('../data/data_participant.json', 'w') do |file|
+        File.open('data/data_participant.json', 'w') do |file|
             @json_hash[username] = @participants[username].to_h
             json_data = @json_hash.to_json
             file.write(json_data)
@@ -88,14 +88,14 @@ class EventManager
     end
 
     def save_json_hash
-        File.open('../data/data_participant.json', 'w') do |file|
+        File.open('data/data_participant.json', 'w') do |file|
             json_data = @json_hash.to_json
             file.write(json_data)
         end
     end
 
     def save_event(name_event)
-        File.open('../data/data_events.json', 'w') do |file|
+        File.open('data/data_events.json', 'w') do |file|
             @json_hash_events[name_event] = @events[name_event].to_h 
             json_data = @json_hash_events.to_json
             file.write(json_data)
@@ -103,14 +103,9 @@ class EventManager
     end
 
     def save_json_hash_events
-        File.open('../data/data_participant.json', 'w') do |file|
+        File.open('data/data_participant.json', 'w') do |file|
             json_data = @json_hash_events.to_json
             file.write(json_data)
         end
     end
 end
-
-user = EventManager.new("Dimitro")
-user.add_participant("Dimitro", "Dima", "Tester", "test@gmail.com")
-
-user.add_event("Сдача ДЗ", "23.02.2024", "Телеграм", "1")
