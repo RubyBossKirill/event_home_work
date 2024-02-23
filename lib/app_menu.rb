@@ -8,8 +8,8 @@ class AppMenu
     end
 
     def run
-
-        loop do 
+        if username == "ADMIN"
+            loop do 
             puts "Что вы хотите сделать"
             puts "1. Добавить мероприятие"
             puts "2. Удалить мероприятие"
@@ -58,8 +58,50 @@ class AppMenu
                 p "Хорошего дня вам:)"
                 break
             end
-        end
+            end
+        else
+            loop do 
+                puts "Что вы хотите сделать"
+                puts "1. Посмотреть доступные мероприятия"
+                puts "2. Записаться на мероприятия"
+                puts "3. Записать свои данные"
+                puts "4. Удалить свои данные"
+                puts "5. Выход"
+          
+                choice = gets.chomp.to_i
+                case choice
+                when 1
 
+                when 2
+                    if @appmenu.participant_exist?(username)
+                        p "Выберите меропритие"
+                        
+                    else
+                        p "Вас нету в списках, вам для начала нужно внести себя"
+                    end
+
+                when 3
+                    puts "Напишите ваше имя"
+                    name = gets.chomp.to_s
+    
+                    puts "Напишите вашу фамилию"
+                    surname = gets.chomp.to_s
+    
+                    puts "Напишите вашу почту"
+                    email = gets.chomp.to_s
+    
+                    @appmenu.add_participant(@username, name, surname, email)
+                when 4
+                    puts "Напиши ник участника которого удалить"
+                    username_del = gets.chomp.to_s
+    
+                    @appmenu.remove_participant(username_del)
+                when 5
+                    p "Хорошего дня вам:)"
+                    break
+                end
+                end
+        end
     end
 
 end

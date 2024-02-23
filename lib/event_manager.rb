@@ -46,11 +46,15 @@ class EventManager
         p "#{name_event} удален из списка"
     end
 
-    private
-    
+    def view_events
+        
+    end
+
     def participant_exist?(username)
         @json_hash.key?(username)
     end
+
+    private
 
     def authentication_participant(username)
         user_participant = Participant.new(username, @json_hash[username]['name'], @json_hash[username]['surname'], @json_hash[username]['email'])
