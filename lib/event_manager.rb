@@ -47,7 +47,14 @@ class EventManager
     end
 
     def view_events
-        
+        data = @json_hash_events.keys
+        data.each_with_index{ |event, index| p "#{index + 1}. #{event}" }
+    end
+
+    def registration_event(username, event)
+        @participants[username].add_event_user(event)
+        save_participant(username)
+        p "#{username} записался на #{event}"
     end
 
     def participant_exist?(username)
@@ -65,9 +72,9 @@ class EventManager
         if File.exist?('data/data_participant.json')
             json_data = File.read('data/data_participant.json')
             begin
-                @json_data = JSON.parse(json_data)
+                @json_hash = JSON.parse(json_data)
             rescue JSON::ParserError
-                @json_data = {}
+                @json_hash = {}
             end
         end
     end
@@ -107,7 +114,7 @@ class EventManager
     end
 
     def save_json_hash_events
-        File.open('data/data_participant.json', 'w') do |file|
+        File.open('data/data_events.json', 'w') do |file|
             json_data = @json_hash_events.to_json
             file.write(json_data)
         end

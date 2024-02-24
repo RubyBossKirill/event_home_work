@@ -39,6 +39,9 @@ class AppMenu
 
                 @appmenu.remove_event(name_event)
             when 3
+                puts "Напиши ник участника"
+                username = gets.chomp.to_s
+
                 puts "Напишите ваше имя"
                 name = gets.chomp.to_s
 
@@ -48,7 +51,7 @@ class AppMenu
                 puts "Напишите вашу почту"
                 email = gets.chomp.to_s
 
-                @appmenu.add_participant(@username, name, surname, email)
+                @appmenu.add_participant(username, name, surname, email)
             when 4
                 puts "Напиши ник участника которого удалить"
                 username_del = gets.chomp.to_s
@@ -71,13 +74,16 @@ class AppMenu
                 choice = gets.chomp.to_i
                 case choice
                 when 1
-
+                    @appmenu.view_events
                 when 2
-                    if @appmenu.participant_exist?(username)
-                        p "Выберите меропритие"
-                        
+                    if @appmenu.participant_exist?(@username)
+                        p "Введите название мероприятия"
+                        @appmenu.view_events
+                        choice = gets.chomp
+                        @appmenu.registration_event(@username, choice)
                     else
                         p "Вас нету в списках, вам для начала нужно внести себя"
+                        p "Выберите раздел 'Записать свои данные'"
                     end
 
                 when 3

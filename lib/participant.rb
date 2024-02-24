@@ -16,4 +16,8 @@ class Participant
             event: @event
         }
     end
+
+    def add_event_user(event)
+        @event = event
+    end
 end
