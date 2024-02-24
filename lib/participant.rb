@@ -8,6 +8,7 @@ class Participant
         @event = nil
     end
 
+    # Выводим участников как ХЭЩ
     def to_h 
         {
             name: @name, 
@@ -17,6 +18,7 @@ class Participant
         }
     end
 
+    # Добавление эвента участнику
     def add_event_user(event)
         @event = event
     end

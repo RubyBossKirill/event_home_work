@@ -7,8 +7,10 @@ class AppMenu
         @username = username
     end
 
+    # Консольное меню
     def run
         if username == "ADMIN"
+            # Луп для админа
             loop do 
             puts "Что вы хотите сделать"
             puts "1. Добавить мероприятие"
@@ -63,6 +65,7 @@ class AppMenu
             end
             end
         else
+            # Луп для пользователя
             loop do 
                 puts "Что вы хотите сделать"
                 puts "1. Посмотреть доступные мероприятия"
@@ -106,7 +109,7 @@ class AppMenu
                     p "Хорошего дня вам:)"
                     break
                 end
-                end
+            end
         end
     end
 
