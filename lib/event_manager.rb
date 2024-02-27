@@ -3,14 +3,17 @@ require_relative 'participant'
 require_relative 'event'
 
 class EventManager
+
+    DATA_JSON_PARTICIPANTS = 'data/data_participant.json'
+    DATA_JSON_EVENTS = 'data/data_events.json'
+
     attr_reader :username, :name, :surname, :email, :to_h
     def initialize(username)
         @events = {}
         @participants = {}
         @json_hash = {}
         @json_hash_events = {}
-        load_participant
-        load_events
+        json_from_load
         if participant_exist?(username)
             authentication_participant(username)
         end
@@ -76,22 +79,18 @@ class EventManager
         @participants[username] = user_participant
     end
 
-    # Загружаем базу участников
-    def load_participant 
-        if File.exist?('data/data_participant.json')
-            json_data = File.read('data/data_participant.json')
+    # Загружаем базу участников, загружаем базу мероприятий
+    def json_from_load
+        if File.exist?(DATA_JSON_PARTICIPANTS)
+            json_data = File.read(DATA_JSON_PARTICIPANTS)
             begin
                 @json_hash = JSON.parse(json_data)
             rescue JSON::ParserError
                 @json_hash = {}
             end
         end
-    end
-
-    # Загружаем базу мероприятий
-    def load_events
-        if File.exist?('data/data_events.json')
-            json_data_events = File.read('data/data_events.json')
+        if File.exist?(DATA_JSON_EVENTS)
+            json_data_events = File.read(DATA_JSON_EVENTS)
             begin
                 @json_hash_events = JSON.parse(json_data_events)
             rescue JSON::ParserError
@@ -102,7 +101,7 @@ class EventManager
 
     # Сохраняем участника в базе
     def save_participant(username)
-        File.open('data/data_participant.json', 'w') do |file|
+        File.open(DATA_JSON_PARTICIPANTS, 'w') do |file|
             @json_hash[username] = @participants[username].to_h
             json_data = @json_hash.to_json
             file.write(json_data)
@@ -111,7 +110,7 @@ class EventManager
 
     # Сохраняем базу в файле
     def save_json_hash
-        File.open('data/data_participant.json', 'w') do |file|
+        File.open(DATA_JSON_PARTICIPANTS, 'w') do |file|
             json_data = @json_hash.to_json
             file.write(json_data)
         end
@@ -119,7 +118,7 @@ class EventManager
 
     # Сохраняем мероприятие в базу
     def save_event(name_event)
-        File.open('data/data_events.json', 'w') do |file|
+        File.open(DATA_JSON_EVENTS, 'w') do |file|
             @json_hash_events[name_event] = @events[name_event].to_h 
             json_data = @json_hash_events.to_json
             file.write(json_data)
@@ -128,7 +127,7 @@ class EventManager
 
     # Сохраняем базу в файле
     def save_json_hash_events
-        File.open('data/data_events.json', 'w') do |file|
+        File.open(DATA_JSON_EVENTS, 'w') do |file|
             json_data = @json_hash_events.to_json
             file.write(json_data)
         end
